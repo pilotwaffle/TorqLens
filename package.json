@@ -17,6 +17,7 @@
     "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.1",
     "@capacitor/app": "^6.0.2",
     "@capacitor/camera": "^6.1.2",
     "@capacitor/core": "^6.2.0",
