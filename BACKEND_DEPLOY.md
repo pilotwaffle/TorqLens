@@ -1,5 +1,11 @@
 # TorqLens — Backend Deploy (Vercel)
 
+> **STATUS: deployed.** Live at **https://torqlens.vercel.app** (Vercel project
+> `pilotwaffles-projects/torqlens`, linked to the GitHub repo). `/privacy`,
+> `/support`, and `/` return 200; API error paths are sanitized; no key leaks to
+> the client. **Remaining:** set `ANTHROPIC_API_KEY` (below) so `/api/identify`
+> returns real results, then redeploy.
+
 This is the **last non-Mac prerequisite** before the cloud-Mac TestFlight build.
 Deploying the Next.js app to Vercel gives you, over HTTPS:
 
