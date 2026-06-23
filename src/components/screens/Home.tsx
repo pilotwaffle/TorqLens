@@ -110,7 +110,6 @@ export function Home({
 function Thumb({ src }: { src?: string }) {
   if (src) {
     // Stored thumbnails are local data URLs; <img> avoids next/image loader.
-    // eslint-disable-next-line @next/next/no-img-element
     return (
       <img
         src={src}

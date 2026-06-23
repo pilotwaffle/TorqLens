@@ -1,6 +1,6 @@
 "use client";
 
-import { Sprout, ShieldCheck, Share2, Heart, RotateCcw, Info } from "lucide-react";
+import { Sprout, ShieldCheck, Share2, Heart, RotateCcw, Info, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -30,7 +30,7 @@ export function Result({
   onToggleFavorite,
   onNewScan,
 }: {
-  image: string;
+  image: string | null;
   result: IdentifyResult;
   activeIndex: number;
   favorite: boolean;
@@ -54,10 +54,16 @@ export function Result({
 
   return (
     <div className="px-4 pb-10">
-      {/* Hero photo with match pill */}
+      {/* Hero photo with match pill (falls back to a leaf placeholder if the
+          local thumbnail is unavailable — the card never depends on the image) */}
       <div className="relative mt-1 aspect-[4/3] w-full overflow-hidden rounded-3xl">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image} alt="Your scan" className="h-full w-full object-cover" />
+        {image ? (
+          <img src={image} alt="Your scan" className="h-full w-full object-cover" />
+        ) : (
+          <div className="surface-scanner flex h-full w-full items-center justify-center">
+            <Leaf className="h-12 w-12 text-signal/70" />
+          </div>
+        )}
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent" />
         <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1.5 text-white backdrop-blur">
           <span className="h-2 w-2 rounded-full bg-signal" />

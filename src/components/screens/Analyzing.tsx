@@ -11,7 +11,6 @@ export function Analyzing({ image }: { image: string }) {
   return (
     <div className="surface-scanner pt-safe pb-safe flex min-h-dvh flex-col items-center justify-center px-8">
       <div className="relative aspect-square w-full max-w-[16rem] overflow-hidden rounded-3xl">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image}
           alt="Your photo"

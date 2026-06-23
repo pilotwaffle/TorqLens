@@ -117,7 +117,6 @@ export function HistoryList({
 
 function Thumb({ src }: { src?: string }) {
   if (src) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
       <img src={src} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
     );

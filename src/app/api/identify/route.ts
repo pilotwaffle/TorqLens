@@ -169,16 +169,21 @@ export async function POST(req: NextRequest) {
       // Re-rank match% after filtering so indices line up.
       .map((c, i) => ({ ...c, matchPercent: matchPercentFor(c.confidence, i) }))
 
-    let primary: PlantCandidate | null = null
-    const isPlant = !!raw.isPlant && candidates.length > 0
-    if (isPlant) {
-      primary = candidates[0]
-    } else if (raw.primary) {
-      primary = normalizeCandidate(raw.primary, 0)
-      candidates.unshift(primary)
+    // Recover a primary if the model flagged isPlant=false but still returned
+    // a usable candidate object — and keep the response self-consistent:
+    // a populated primary ALWAYS means isPlant=true with candidates[0]===primary.
+    if (candidates.length === 0 && raw.primary) {
+      const recovered = normalizeCandidate(raw.primary, 0)
+      if (recovered.commonName || recovered.scientificName) {
+        candidates.unshift(recovered)
+      }
     }
 
+    const isPlant = candidates.length > 0
+    const primary: PlantCandidate | null = isPlant ? candidates[0] : null
+
     const result: IdentifyResult = {
+      // Only true when we genuinely have nothing AND the model said it analyzed.
       identified: raw.identified !== false,
       isPlant,
       primary,

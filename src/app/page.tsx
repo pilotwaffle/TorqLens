@@ -321,7 +321,7 @@ export default function App() {
           </>
         )}
 
-        {view === "result" && image && result && (
+        {view === "result" && result && (
           <Result
             image={image}
             result={result}
