@@ -52,7 +52,7 @@ scripts/
   generate-icons.mjs      Produces the OPAQUE App Store icon + iOS AppIcon set
   configure-ios.sh        Idempotent iOS settings (iPhone-only, version) — run on Mac
 public/brand/             Logo marks + app-icon-1024-appstore.png (opaque master)
-public/reference/         Design reference screenshots (NOT used in the app)
+design-reference/         Design reference screenshots (docs only — NOT shipped)
 ios/                      Capacitor iOS Xcode project
 capacitor.config.ts       appId com.torqbusinesssolutions.torqlens, webDir "out"
 ```
@@ -125,7 +125,7 @@ In Xcode:
    (TestFlight).
 
 ### App Store Connect metadata
-Use `public/reference/`-style copy from `handoff/copy/app-store-listing.md`:
+Use the listing copy from the design handoff (`copy/app-store-listing.md`):
 - **Name:** TorqLens · **Subtitle:** AI Plant & Weed Scanner
 - **Category:** Utilities (secondary: Lifestyle) · **Age:** 4+
 - **Privacy Policy URL:** `https://YOUR-DOMAIN/privacy`
@@ -160,5 +160,14 @@ Use `public/reference/`-style copy from `handoff/copy/app-store-listing.md`:
 - The web `/privacy` and `/support` pages are live, publishable, and free of
   bracket placeholders. Update the support email / "last updated" date if your
   details differ from `src/lib/content.ts`.
+
+## Going to the Mac / App Store
+
+- **`MAC_HANDOFF.md`** — exact step-by-step from `npm install` → TestFlight →
+  App Store Connect, plus a **backend health check** (confirm HTTPS, the
+  identify endpoint returns a real result, errors are sanitized, and no key is
+  exposed in the client) to run before any TestFlight build.
+- **`RELEASE_CHECKLIST.md`** — the final go/no-go checklist (security, icon,
+  iPhone-only, permissions, functionality, live URLs, screenshots, metadata).
 
 © 2026 Torq Business Solutions.
