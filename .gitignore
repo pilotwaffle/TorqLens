@@ -67,3 +67,5 @@ xcuserdata/
 # Skills directory
 /skills/
 .verify-shots/
+
+.vercel

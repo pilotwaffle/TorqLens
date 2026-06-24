@@ -6,9 +6,27 @@
  * NEXT_PUBLIC_API_BASE_URL (empty string ⇒ same-origin, used by the web app).
  * The iOS bundle points this at the deployed backend.
  */
+import { Capacitor } from "@capacitor/core";
 import type { IdentifyResult, GuidanceAction, GuidanceResult } from "./types";
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "").replace(/\/$/, "");
+// Production backend. Used as the guaranteed fallback for the native app so a
+// missing/empty build-time env var can never leave the iOS bundle pointing at
+// its own (api-less) local origin.
+const PROD_API_BASE = "https://torqlens.vercel.app";
+
+function resolveApiBase(): string {
+  const fromEnv = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "").replace(/\/$/, "");
+  // Native app: a relative/same-origin URL resolves to capacitor://localhost
+  // (no API there). Always target the remote backend — env value if it's an
+  // absolute http(s) URL, otherwise the production fallback.
+  if (Capacitor.isNativePlatform()) {
+    return /^https?:\/\//i.test(fromEnv) ? fromEnv : PROD_API_BASE;
+  }
+  // Web: empty = same-origin (correct for the deployed site).
+  return fromEnv;
+}
+
+const API_BASE = resolveApiBase();
 
 function url(path: string): string {
   return `${API_BASE}${path}`;
