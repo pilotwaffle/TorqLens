@@ -13,6 +13,7 @@ import {
   Lock,
   FileText,
   Check,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, Badge } from "@/components/ui/primitives";
@@ -24,8 +25,9 @@ import {
   SUPPORT_IN_APP,
   SAFETY_SHEET,
 } from "@/lib/content";
+import { Paywall } from "@/components/screens/Paywall";
 
-type View = "menu" | "privacy" | "support" | "safety";
+type View = "menu" | "privacy" | "support" | "safety" | "pro";
 
 /**
  * About / More hub.
@@ -44,6 +46,7 @@ export function About() {
       {view === "privacy" && <Privacy onBack={() => setView("menu")} />}
       {view === "support" && <Support onBack={() => setView("menu")} />}
       {view === "safety" && <Safety onBack={() => setView("menu")} />}
+      {view === "pro" && <Paywall onBack={() => setView("menu")} />}
     </div>
   );
 }
@@ -117,6 +120,11 @@ function Menu({ onOpen }: { onOpen: (v: View) => void }) {
 
       {/* Rows */}
       <Card className="mt-7 divide-y divide-black/[0.06] overflow-hidden p-0">
+        <MenuRow
+          icon={<Sparkles className="h-5 w-5" />}
+          label="TorqLens Pro"
+          onClick={() => onOpen("pro")}
+        />
         <MenuRow
           icon={<Shield className="h-5 w-5" />}
           label="Privacy summary"
