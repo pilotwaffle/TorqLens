@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { visionComplete } from '../_provider'
+import { logProviderError } from '../_provider-error'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -191,9 +192,9 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(result)
-  } catch {
+  } catch (err) {
     // Never surface internal error messages or provider details.
-    console.error('identify: unhandled server error')
+    logProviderError('identify', err)
     return NextResponse.json({ error: SAFE_SERVER_ERROR }, { status: 500 })
   }
 }
