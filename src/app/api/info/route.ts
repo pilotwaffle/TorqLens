@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { textComplete } from '../_provider'
+import { logProviderError } from '../_provider-error'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -149,8 +150,8 @@ export async function POST(req: NextRequest) {
       scientificName: scientificName || '',
       content
     })
-  } catch {
-    console.error('info: unhandled server error')
+  } catch (err) {
+    logProviderError('info', err)
     return NextResponse.json({ error: SAFE_SERVER_ERROR }, { status: 500 })
   }
 }
