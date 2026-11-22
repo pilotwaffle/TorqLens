@@ -86,6 +86,16 @@ export async function setOnboarded(): Promise<void> {
   await setRaw(ONBOARDED_KEY, "1");
 }
 
+/** Read one preference. Used by the review prompt; same native/web fallback as history. */
+export async function getStoredValue(key: string): Promise<string | null> {
+  return getRaw(key);
+}
+
+/** Write one preference. Used by the review prompt; same native/web fallback as history. */
+export async function setStoredValue(key: string, value: string): Promise<void> {
+  await setRaw(key, value);
+}
+
 /** Generate a unique id without Date.now nondeterminism concerns in callers. */
 export function newId(seed: number): string {
   return `scan_${seed.toString(36)}_${Math.floor(seed % 1000)}`;
