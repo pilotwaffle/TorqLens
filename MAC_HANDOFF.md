@@ -57,6 +57,12 @@ If CocoaPods didn't run automatically:
 ```bash
 cd ios/App && pod install && cd ../..
 ```
+`npm install` pulls `@capacitor-community/in-app-review@6.0.0` (Capacitor 6).
+`cap sync` registers its iOS pod from the package `capacitor.ios` field and
+runs `pod install`. After a user's third saved plant scan, the app calls
+StoreKit `requestReview()` once. Do not add a custom review UI in Xcode. The
+system sheet may not appear in debug or when Apple's yearly quota is spent;
+that is expected. No App Store Connect change.
 
 ### 5. Open the iOS project in Xcode
 ```bash

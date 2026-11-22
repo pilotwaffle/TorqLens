@@ -12,7 +12,7 @@ import { SafetySheet } from "@/components/screens/SafetySheet";
 import { AppHeader, TabBar, type Tab } from "@/components/screens/chrome";
 import { Card } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
-import { capturePhoto, shareResult, tapHaptic, successHaptic, hideSplash, setStatusBar, isNative } from "@/lib/native";
+import { capturePhoto, shareResult, tapHaptic, successHaptic, hideSplash, setStatusBar, isNative, requestAppReview } from "@/lib/native";
 import { compressImage, makeThumbnail } from "@/lib/image";
 import { identifyPlant, fetchGuidance, ApiError } from "@/lib/api";
 import {
@@ -23,7 +23,10 @@ import {
   clearHistory,
   hasOnboarded,
   setOnboarded,
+  getStoredValue,
+  setStoredValue,
 } from "@/lib/storage";
+import { maybeRequestReviewAfterSuccessfulSave } from "@/lib/review-prompt";
 import type {
   IdentifyResult,
   GuidanceAction,
@@ -133,6 +136,11 @@ export default function App() {
         const next = await addScan(record);
         setHistory(next);
         setCurrentScanId(record.id);
+        void maybeRequestReviewAfterSuccessfulSave({
+          storage: { get: getStoredValue, set: setStoredValue },
+          requestReview: requestAppReview,
+          savedCountIfUntracked: next.length,
+        }).catch(() => {});
       } else {
         setCurrentScanId(null);
       }

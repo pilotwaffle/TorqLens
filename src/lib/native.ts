@@ -160,3 +160,19 @@ export async function hideSplash(): Promise<void> {
     /* best-effort */
   }
 }
+
+/**
+ * StoreKit in-app review. Silent no-op on web and when the plugin is not
+ * registered yet. Mac follow-up (out of scope here): `npm install` then
+ * `npx cap sync ios` so the pod from this package is installed. See
+ * MAC_HANDOFF.md. Do not add a custom review dialog.
+ */
+export async function requestAppReview(): Promise<void> {
+  try {
+    if (!isNative()) return;
+    const { InAppReview } = await import("@capacitor-community/in-app-review");
+    await InAppReview.requestReview();
+  } catch {
+    /* web, or plugin not registered until Mac cap sync */
+  }
+}
